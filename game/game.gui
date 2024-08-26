@@ -1,0 +1,76 @@
+script: "/game/game.gui_script"
+fonts {
+  name: "font"
+  font: "/assets/font.font"
+}
+nodes {
+  position {
+    x: 384.0
+    y: 640.0
+  }
+  size {
+    x: 100.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "center"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  position {
+    y: 130.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "GAME"
+  font: "font"
+  id: "text"
+  parent: "center"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 384.0
+    y: 1280.0
+  }
+  size {
+    x: 768.0
+    y: 128.0
+  }
+  color {
+    x: 0.2
+    y: 0.2
+    z: 0.2
+  }
+  type: TYPE_BOX
+  id: "top"
+  pivot: PIVOT_N
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 384.0
+  }
+  size {
+    x: 768.0
+    y: 384.0
+  }
+  color {
+    x: 0.2
+    y: 0.2
+    z: 0.2
+  }
+  type: TYPE_BOX
+  id: "bottom"
+  pivot: PIVOT_S
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

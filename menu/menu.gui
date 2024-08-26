@@ -1,0 +1,37 @@
+script: "/menu/menu.gui_script"
+fonts {
+  name: "font"
+  font: "/assets/font.font"
+}
+nodes {
+  position {
+    x: 384.0
+    y: 640.0
+  }
+  size {
+    x: 100.0
+    y: 100.0
+  }
+  type: TYPE_BOX
+  id: "center"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  position {
+    y: 130.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "MENU"
+  font: "font"
+  id: "text"
+  parent: "center"
+  inherit_alpha: true
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

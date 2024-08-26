@@ -1,0 +1,76 @@
+local defsave = require("defsave.defsave")
+local player = require("mods.player")
+local coins = require("mods.coins")
+local onboarding = require("mods.onboarding")
+
+local game_proxy = "#game"
+local menu_proxy = "#menu"
+
+function init(self)
+    msg.post(".", "acquire_input_focus")
+
+    math.randomseed(socket.gettime())
+
+    defsave.appname = "mobile_template"
+    defsave.default_data = require("mods.default_data")
+
+    defsave.load("player")
+    defsave.load("coins")
+    defsave.load("onboarding")
+
+    player.init()
+    coins.init()
+    onboarding.init()
+
+    if onboarding.first_game then
+        msg.post(game_proxy, "load")
+    else
+        msg.post(menu_proxy, "load")
+    end
+
+    self.active_gui = nil
+    self.active_collection = nil
+end
+
+function update(self, dt)
+    defsave.update(dt)
+end
+
+function final(self)
+    defsave.save_all()
+end
+
+function on_message(self, message_id, message, sender)
+    if message_id == hash("proxy_loaded") then
+        if sender.fragment == hash("game") then
+            msg.post(sender, "init")
+            msg.post(sender, "enable")
+            self.active_collection = "game"
+            self.active_gui = "game:/gui#game"
+        elseif sender.fragment == hash("menu") then
+            msg.post(sender, "init")
+            msg.post(sender, "enable")
+            self.active_collection = "menu"
+            self.active_gui = "menu:/gui#menu"
+        end
+        print("collection proxy " .. sender.fragment .. " loaded")
+    elseif message_id == hash("proxy_unloaded") then
+        if sender.fragment == hash("game") then
+            self.active_collection = nil
+            self.active_gui = nil
+        elseif sender.fragment == hash("menu") then
+            self.active_collection = nil
+            self.active_gui = nil
+        end
+        print("collection proxy " .. sender.fragment .. " unloaded")
+    elseif message_id == hash("show_menu") then
+        msg.post(game_proxy, "unload")
+        msg.post(menu_proxy, "load")
+    elseif message_id == hash("start_game") then
+        msg.post(menu_proxy, "unload")
+        msg.post(game_proxy, "load")
+    end
+end
+
+function on_input(self, action_id, action)
+end
